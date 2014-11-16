@@ -9,7 +9,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace mason
+namespace RubyPInvoke
 {
    // Considered, and tried, SWIG to generate this wrapper.
    // The result were undesirable. PInvoke offers some nice
@@ -50,7 +50,7 @@ namespace mason
       // Params:  (<%= function[:param_list].join(', ') %>)
       // Return:  <%= function[:return_type] %>
       <%= "//" if function[:csharp_signature]['UNDEFINED'] %>[DllImport(RUBY_DLL)]
-      <%= function[:csharp_signature]['UNDEFINED'] ? "// \#{function[:csharp_signature]}" : function[:csharp_signature] %>;
+      <%= function[:csharp_signature]['UNDEFINED'] ? "// #{function[:csharp_signature]}" : function[:csharp_signature] %>;
 <%  end -%>
 <% end -%>
    }

@@ -14,6 +14,12 @@ namespace RubyPInvoke
       }
 
       public unsafe Value Call(string methodName, params Value[] args) {
+         Value result = Ruby.Nil;
+         Ruby.Protect(() => result = CallUnprotected(methodName, args));
+         return result;
+      }
+
+      private unsafe Value CallUnprotected(string methodName, params Value[] args) {
          // rb_funcall expects a native array of VALUE objects, so we have to allocated this manually
          IntPtr argv = Marshal.AllocHGlobal(sizeof(uint*) * args.Length);
          uint** argvPtr = (uint**)argv;
@@ -57,6 +63,10 @@ namespace RubyPInvoke
          }
       }
 
+      public Value GetConstant(string constName) {
+         return RubyWrapper.rb_const_get(this, RubyWrapper.rb_intern(constName));
+      }
+
       // Conversions
       // -----------
 
@@ -64,9 +74,15 @@ namespace RubyPInvoke
          return (int)RubyWrapper.rb_num2int(this.Pointer);
       }
 
+      /// <summary>
+      /// Returns to result of calling `to_s` on the ruby object, as a C# string
+      /// </summary>
+      /// <returns>A string that represents the current object.</returns>
+      /// <filterpriority>2</filterpriority>
       public override unsafe string ToString() {
+         var asString = this.Call("to_s");
          // rb_string_value_cstr expects a VALUE*, so we need a pointer to our pointer (remember, VALUE is stored as a pointer)
-         fixed(void* ptrptr = &Pointer) {
+         fixed(void* ptrptr = &(asString.Pointer)) {
             var result = RubyWrapper.rb_string_value_cstr(new IntPtr(ptrptr));
             return Marshal.PtrToStringAnsi(result);
          }

@@ -40,6 +40,7 @@
     <Compile Include="RubyWrapper.cs" />
     <Compile Include="Ruby.cs" />
     <Compile Include="Value.cs" />
+    <Compile Include="RubyException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

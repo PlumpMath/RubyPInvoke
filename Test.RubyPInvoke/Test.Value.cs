@@ -19,12 +19,12 @@ namespace Test.RubyPInvoke
       }
 
       [Test]
-      public void ToString_OnARubyObject_ReturnsTheResultOfToStrAsAManagedString()
+      public void ToString_OnARubyObject_ReturnsTheResultOfToSAsAManagedString()
       {
          Ruby.Init();
          Value result = Ruby.Eval(@"
             class Test
-               def to_str
+               def to_s
                  'stub'
                end
             end
@@ -139,6 +139,20 @@ namespace Test.RubyPInvoke
          Ruby.Init();
          Value testString = (Value)"1234567890";
          Assert.AreEqual(10, testString.Call("length"));
+      }
+
+      [Test]
+      public void GetConstant_RetrievesConstantDefinedInThisValue() {
+         Ruby.Init();
+         Value pi = Ruby.GetConstant("Math").GetConstant("PI");
+         Assert.IsTrue(pi.ToString().Contains("3.14"));
+      }
+
+      [Test]
+      public void Call_ThrowsRubyException_IfRubyThrows() {
+         Assert.Catch(typeof(RubyException), () => {
+            ((Value)"ruby string").Call("not_a_real_method");
+         });
       }
    }
 }

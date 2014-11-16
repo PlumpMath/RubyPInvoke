@@ -20,7 +20,7 @@ $function_selectors_by_file = {
   "../RubyHeaders/ruby/intern.h" => {
     "Arrays" => /rb_ary_.*/i,
     "Threading" => /rb_thread_create/,
-    "Interacting" => /rb_(const|path2class|singleton_class$)/,
+    "Interacting" => /rb_(const|protect|singleton_class$)/,
     "Strings" => /rb_str_new/
   }
 }
@@ -101,7 +101,7 @@ def convert_types(return_type, param_list)
 
   cshap_param_list = param_list.each_with_index.map { |param, i|
     case param
-    when /[a-z]+ ?\(\*\)\(ANYARGS\)/i
+    when /[a-z]+ ?\(\*\)\(ANYARGS|VALUE\)/i
       "Callback callback#{i}"
     when "void *(*func)(void *)"
       "Callback callback#{i}"

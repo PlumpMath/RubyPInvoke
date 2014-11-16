@@ -5,9 +5,15 @@ namespace RubyPInvoke
 {
    public partial class Ruby
    {
-      private static bool initialized = false;
+      // Internal State
+      // --------------
+
+      private static bool _initialized = false;
       private static bool gvlIsReleased = false;
       private static int rbNil;
+
+      // Ruby Constants
+      // --------------
 
       private static Value _objectClass = null;
       public static Value ObjectClass {
@@ -19,11 +25,24 @@ namespace RubyPInvoke
          }
       }
 
+      public static Value Nil {
+         get {
+            return new Value((IntPtr)rbNil);
+         }
+      }
+
+      // Initialization
+      // --------------
+
+      /// <summary>
+      /// Inits the Ruby Interpreter
+      /// </summary>
+      /// <param name="args">Arguments.</param>
       public static void Init(string[] args = null)
       {
-         if (initialized) return;
+         if (_initialized) return;
 
-         initialized = true;
+         _initialized = true;
 
          if (args == null) {
             args = new string[]{ };
@@ -49,6 +68,9 @@ namespace RubyPInvoke
          rbNil = Eval("nil").Pointer.ToInt32();
       }
 
+      // Basic Interactions
+      // ------------------
+
       /// <summary>
       /// Returns false if value is nil or false, otherwise returns true
       /// (This is the standard boolean test in Ruby)
@@ -70,21 +92,29 @@ namespace RubyPInvoke
          return RubyWrapper.rb_eval_string(script);
       }
 
+      public static unsafe void Protect(Action callback) {
+         int status = 0;
+         RubyWrapper.rb_protect((IntPtr ptr) => {
+            callback();
+            return Ruby.Nil;
+         }, Ruby.Nil, ref status);
+
+         if (status != 0) {
+            var ex = new RubyException("Ruby threw within protected call. See ErrorStatus member.");
+            ex.ErrorStatus = status;
+            throw ex;
+         }
+      }
+
       public static Value GetConstant(string constName) {
          var constId = RubyWrapper.rb_intern(constName);
          return RubyWrapper.rb_const_get(Ruby.ObjectClass, constId);
       }
 
-      public static void WithoutGvl(Action callback, Action unblock) {
-         RubyWrapper.rb_thread_call_without_gvl(
-            (ptr) => { callback(); return new IntPtr(0); },
-            new IntPtr(0),
-            (ptr) => unblock(),
-            new IntPtr(0)
-         );
-      }
+      // GVL Methods
+      // -----------
 
-      public static void WithoutGvl(Action callback) {
+      public static void WithoutGvl(Action callback, Action unblock) {
          if (gvlIsReleased) {
             callback();
             return;
@@ -94,12 +124,16 @@ namespace RubyPInvoke
 
          RubyWrapper.rb_thread_call_without_gvl(
             (ptr) => { callback(); return new IntPtr(0); },
-            (IntPtr)0,
-            (ptr) => {},
-            (IntPtr)0
+            new IntPtr(0),
+            (ptr) => unblock(),
+            new IntPtr(0)
          );
 
          gvlIsReleased = false;
+      }
+
+      public static void WithoutGvl(Action callback) {
+         WithoutGvl(callback, () => {});
       }
 
       public static void WithGvl(Action callback) {
@@ -117,6 +151,9 @@ namespace RubyPInvoke
 
          gvlIsReleased = true;
       }
+
+      // Threading Methods
+      // -----------------
 
       public static Value Thread(Action callback) {
          return RubyWrapper.rb_thread_create(

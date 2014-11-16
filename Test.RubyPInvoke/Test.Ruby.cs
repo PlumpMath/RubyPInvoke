@@ -135,5 +135,19 @@ namespace Test.RubyPInvoke
          Value stringClass = Ruby.GetConstant("String");
          Assert.AreEqual("String", (string)stringClass.Call("name"));
       }
+
+      [Test]
+      public void Protect_ThrowsRubyExceptionIfRubyThrows() {
+         Assert.Catch(typeof(RubyException), () => {
+            Ruby.Protect(() => Ruby.ObjectClass.Call("this_method_doesnt_exist"));
+         });
+      }
+
+      [Test]
+      public void Protect_DoesntThrowIfRubyDoesntThrow() {
+         Assert.DoesNotThrow(() =>
+            Ruby.Protect(() => Ruby.ObjectClass.Call("name"))
+         );
+      }
    }
 }
