@@ -7,18 +7,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubyPInvoke", "RubyPInvoke\
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug200|Any CPU = Debug200|Any CPU
+		Debug210|Any CPU = Debug210|Any CPU
+		Release200|Any CPU = Release200|Any CPU
+		Release210|Any CPU = Release210|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Debug|x86.ActiveCfg = Debug|x86
-		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Debug|x86.Build.0 = Debug|x86
-		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Release|x86.ActiveCfg = Release|x86
-		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Release|x86.Build.0 = Release|x86
-		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Debug|x86.Build.0 = Debug|Any CPU
-		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Release|x86.ActiveCfg = Release|Any CPU
-		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Release|x86.Build.0 = Release|Any CPU
+		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Debug200|Any CPU.ActiveCfg = Debug200|Any CPU
+		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Debug200|Any CPU.Build.0 = Debug200|Any CPU
+		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Debug210|Any CPU.ActiveCfg = Debug210|Any CPU
+		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Debug210|Any CPU.Build.0 = Debug210|Any CPU
+		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Release200|Any CPU.ActiveCfg = Release200|Any CPU
+		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Release200|Any CPU.Build.0 = Release200|Any CPU
+		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Release210|Any CPU.ActiveCfg = Release210|Any CPU
+		{13BCB003-7DD4-4864-918D-E4F41B4DBBBC}.Release210|Any CPU.Build.0 = Release210|Any CPU
+		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Debug200|Any CPU.ActiveCfg = Debug200|Any CPU
+		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Debug200|Any CPU.Build.0 = Debug200|Any CPU
+		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Debug210|Any CPU.ActiveCfg = Debug210|Any CPU
+		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Debug210|Any CPU.Build.0 = Debug210|Any CPU
+		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Release200|Any CPU.ActiveCfg = Release200|Any CPU
+		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Release200|Any CPU.Build.0 = Release200|Any CPU
+		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Release210|Any CPU.ActiveCfg = Release210|Any CPU
+		{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}.Release210|Any CPU.Build.0 = Release210|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Test.RubyPInvoke\Test.RubyPInvoke.csproj

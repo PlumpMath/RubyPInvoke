@@ -2,22 +2,23 @@ require 'pp'
 require 'erb'
 
 # Push file names onto ARGS to populate ARGF
-ARGV.push("../RubyHeaders/ruby/ruby.h")
-ARGV.push("../RubyHeaders/ruby/thread.h")
-ARGV.push("../RubyHeaders/ruby/intern.h")
+$version = ARGV.pop
+ARGV.push("../RubyHeaders#{$version}/ruby/ruby.h")
+ARGV.push("../RubyHeaders#{$version}/ruby/thread.h")
+ARGV.push("../RubyHeaders#{$version}/ruby/intern.h")
 
 $function_selectors_by_file = {
-  "../RubyHeaders/ruby/ruby.h" => {
+  "../RubyHeaders#{$version}/ruby/ruby.h" => {
     "Initializing" => /(rb|ruby)[a-z_]*(init)/i,
     "Casting" => /([a-z_]2[a-z_])|rb_string_value/i,
     "Reflection" => /^rb_(class_of|type)$/,
     "Interns" => /(rb|ruby)_(intern)/i,
     "Interacting" => /(rb|ruby)_(eval|define|fun|gv|iv)/i
   },
-  "../RubyHeaders/ruby/thread.h" => {
+  "../RubyHeaders#{$version}/ruby/thread.h" => {
     "Threading" => /rb_.*thread|gvl/i
   },
-  "../RubyHeaders/ruby/intern.h" => {
+  "../RubyHeaders#{$version}/ruby/intern.h" => {
     "Arrays" => /rb_ary_.*/i,
     "Threading" => /rb_thread_create/,
     "Interacting" => /rb_(const|protect|singleton_class$)/,

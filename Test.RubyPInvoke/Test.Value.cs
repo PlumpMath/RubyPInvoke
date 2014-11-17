@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using RubyPInvoke;
-using System.Runtime.ExceptionServices;
 
 namespace Test.RubyPInvoke
 {
@@ -149,9 +148,16 @@ namespace Test.RubyPInvoke
       }
 
       [Test]
-      public void Call_ThrowsRubyException_IfRubyThrows() {
+      public void CallProtected_ThrowsRubyException_IfRubyThrows() {
          Assert.Catch(typeof(RubyException), () => {
-            ((Value)"ruby string").Call("not_a_real_method");
+            ((Value)"ruby string").CallProtected("not_a_real_method");
+         });
+      }
+
+      [Test]
+      public void CallProtected_DoesntThrow_UnlessRubyThrows() {
+         Assert.DoesNotThrow(() => {
+            ((Value)"ruby string").CallProtected("length");
          });
       }
    }

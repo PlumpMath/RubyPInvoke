@@ -96,8 +96,8 @@ namespace RubyPInvoke
          int status = 0;
          RubyWrapper.rb_protect((IntPtr ptr) => {
             callback();
-            return Ruby.Nil;
-         }, Ruby.Nil, ref status);
+            return IntPtr.Zero;
+         }, IntPtr.Zero, ref status);
 
          if (status != 0) {
             var ex = new RubyException("Ruby threw within protected call. See ErrorStatus member.");
@@ -160,6 +160,30 @@ namespace RubyPInvoke
             (ptr) => { callback(); return (IntPtr)0; },
             (IntPtr)0
          );
+      }
+
+      // Normalizing methods
+      // -------------------
+
+      public static unsafe Value Funcall(Value receiver, string methodName, params Value[] args) {
+         // rb_funcall expects a native array of VALUE objects, so we have to allocated this manually
+         IntPtr argv = Marshal.AllocHGlobal(sizeof(uint*) * args.Length);
+         uint** argvPtr = (uint**)argv;
+
+         for (var i = 0; i < args.Length; ++i) {
+            *(argvPtr + i) = (uint*)(args[i].Pointer);
+         }
+
+         #if RUBY200
+         IntPtr resultPtr = RubyWrapper.rb_funcall2(receiver, RubyWrapper.rb_intern(methodName), args.Length, argv);
+         #elif RUBY210
+         IntPtr resultPtr = RubyWrapper.rb_funcallv(receiver, RubyWrapper.rb_intern(methodName), args.Length, argv);
+         #endif
+
+         Value result = new Value(resultPtr);
+         // Free the native array we created
+         Marshal.FreeHGlobal(argv);
+         return result;
       }
    }
 }

@@ -13,26 +13,14 @@ namespace RubyPInvoke
          Pointer = cPtr;
       }
 
-      public unsafe Value Call(string methodName, params Value[] args) {
+      public Value CallProtected(string methodName, params Value[] args) {
          Value result = Ruby.Nil;
-         Ruby.Protect(() => result = CallUnprotected(methodName, args));
+         Ruby.Protect(() => result = Call(methodName, args));
          return result;
       }
 
-      private unsafe Value CallUnprotected(string methodName, params Value[] args) {
-         // rb_funcall expects a native array of VALUE objects, so we have to allocated this manually
-         IntPtr argv = Marshal.AllocHGlobal(sizeof(uint*) * args.Length);
-         uint** argvPtr = (uint**)argv;
-
-         for (var i = 0; i < args.Length; ++i) {
-            *(argvPtr + i) = (uint*)(args[i].Pointer);
-         }
-
-         IntPtr resultPtr = RubyWrapper.rb_funcall2(Pointer, RubyWrapper.rb_intern(methodName), args.Length, argv);
-         Value result = new Value(resultPtr);
-         // Free the native array we created
-         Marshal.FreeHGlobal(argv);
-         return result;
+      public unsafe Value Call(string methodName, params Value[] args) {
+         return Ruby.Funcall(this, methodName, args);
       }
 
       public Value GetVariable(string name) {

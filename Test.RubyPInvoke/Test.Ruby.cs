@@ -146,7 +146,7 @@ namespace Test.RubyPInvoke
       [Test]
       public void Protect_DoesntThrowIfRubyDoesntThrow() {
          Assert.DoesNotThrow(() =>
-            Ruby.Protect(() => Ruby.ObjectClass.Call("name"))
+            Ruby.Protect(() => {})
          );
       }
    }

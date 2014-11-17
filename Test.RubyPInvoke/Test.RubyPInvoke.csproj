@@ -6,7 +6,6 @@
     <ProjectGuid>{EB8ED621-8A67-4DCE-9422-8E56F4D20F82}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Test.RubySharp</RootNamespace>
-    <AssemblyName>Test.RubySharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -19,6 +18,8 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>Test.RubySharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -27,6 +28,37 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>Test.RubySharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug200|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug200</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>Test.RubyPInvoke</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug210|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug210</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>Test.RubyPInvoke</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release200|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release200</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>Test.RubyPInvoke</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release210|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release210</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>Test.RubyPInvoke</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -39,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Test.Ruby.cs" />
     <Compile Include="Test.Value.cs" />
+    <Compile Include="Test.RubyWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
